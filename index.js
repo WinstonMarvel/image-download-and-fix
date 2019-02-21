@@ -5,7 +5,7 @@ const path = require('path');
 const request = require('request');
 
 var fileContents = fs.readFileSync(path.resolve("./input.txt"), 'utf8');
-var $ = cheerio.load(fileContents);
+var $ = cheerio.load(fileContents, { decodeEntities: false, withDomLvl1: false });
 
 var outputFolder = "./images/";
 
