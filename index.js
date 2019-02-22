@@ -6,8 +6,8 @@ const request = require('request');
 
 var fileContents = fs.readFileSync(path.resolve("./input.txt"), 'utf8');
 var $ = cheerio.load(fileContents, { decodeEntities: false });
-
 var outputFolder = "./images/";
+var reWritePath = "/design/images/blog/";
 
 var asyncForEach = async function(array, callback){
 	for(var i = 0; i<array.length; i++){
@@ -23,8 +23,9 @@ asyncForEach($("img"), async function(elem){
 	options.dest = outputFolder + newUrl;
 	try{
 		const { filename, image } = await download.image(options);
-		$(elem).attr("src", `/design/images/blog/${filename.match(/(?!.*\/).+.(jpg|png|svg|gif)/gi)[0]}`);
-    	console.log('File saved to', filename.match(/(?!.*\/).+.(jpg|png|svg|gif)/gi)[0])
+		$(elem).attr("src", `${reWritePath}${newUrl}`);
+    	console.log('Saved: ', `${newUrl}`)
+		$(elem).parent('a').attr('href', `${reWritePath}${newUrl}`);
 	}
 	catch(err){
     	console.log(`Error for: newUrl`, err)
